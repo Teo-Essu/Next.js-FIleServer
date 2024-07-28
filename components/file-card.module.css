@@ -1,0 +1,6 @@
+/*class for positioning downloads and sends at the bottom right corner*/
+.bottom_left {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+  }
