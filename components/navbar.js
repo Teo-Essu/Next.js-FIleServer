@@ -23,7 +23,7 @@ export default function Navbar(){
                             <Link className="nav-link" href="/admin">Admin</Link>
                         </li>
                         <li className="nav-item">
-                            <Link className="nav-link" href='/login'>LogOut</Link>
+                            <Link className="nav-link" href='/register'>LogOut</Link>
                         </li>
                     </ul>
                 </div>
