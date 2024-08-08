@@ -1,8 +1,11 @@
 'use server';
 
+import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { cookies } from "next/headers";
+import axios from "axios";
 
-export async function register(prevState, formData){
+export async function register (prevState, formData){
     console.log(formData);
     const email = formData.get('email');
     const password = formData.get('password');
@@ -24,33 +27,75 @@ export async function register(prevState, formData){
     }
 
     try {
-      const response = await fetch('http://localhost:3500/register', {
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-              email,
-              password
-          })
-      });
+        const response = await axios.post('http://localhost:3500/register', 
+          {
+            email,
+            pwd: password
+          }
+        );
 
-      if (!response.ok) {
-          const errorData = await response.json();
-          return {
-              errors: {
-                  server: errorData.message || 'Oops, trouble registering.',
-              },
-          };
-      }
-      // If the request is successful, redirect to /files
-      redirect('/files');
+        console.log(response.data);
 
-  } catch (error) {
+    } catch (error) {
       return {
           errors: {
-              server: 'An error occurred while registering.',
+              server: 'An error occurred while registering: ' + error,
           },
       };
-  }
+    }
+
+    revalidatePath("/files");
+    redirect("/files");
+}
+
+export async function login (prevState, formData){
+    const email = formData.get('email');
+    const password = formData.get('password');
+
+    try {
+        const response = await axios.post('http://localhost:3500/auth', 
+          {
+            email,
+            pwd: password
+          }
+        );
+
+        var token = response.data.accessToken;
+
+        cookies().set({
+          name: 'jwt',
+          value: token,
+          httpOnly: true,
+          path: '/',
+        });
+      
+    } catch(error) {
+      return {
+        errors: {
+          server: "An error occured while logging-in: " + error
+        }
+      };
+    }
+
+    revalidatePath("/files");
+    redirect("/files");
+}
+
+export async function logout() {  
+  // try {
+  //     await axios.get('http://localhost:3500/logout', {
+  //       withCredentials: true,
+  //     });
+  // } catch(error) {
+  //     console.log(error);
+  // }
+  cookies().delete('jwt');
+  // redirect('/auth');
+}
+
+export async function auth(mode, prevState, formData){
+  if (mode === 'login')
+    return login(prevState, formData);
+
+  return register(prevState, formData);
 }

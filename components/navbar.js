@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import styles from './navbar.module.css';
+import { logout } from "@/actions/auth/auth-actions";
 
 export default function Navbar(){
     return(
@@ -23,7 +24,7 @@ export default function Navbar(){
                             <Link className="nav-link" href="/admin">Admin</Link>
                         </li>
                         <li className="nav-item">
-                            <Link className="nav-link" href='/register'>LogOut</Link>
+                            <Link className="nav-link" href='/auth' onClick={async () => {(await logout())} }>LogOut</Link>
                         </li>
                     </ul>
                 </div>
