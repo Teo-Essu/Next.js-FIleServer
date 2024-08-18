@@ -3,7 +3,7 @@ import { sendEmail } from "@/actions/email/email-actions";
 import { useFormState } from 'react-dom';
 import styles from "./email-form.module.css";
 
-export default function SendEmail({ fileUrl }){
+export default function EmailForm({ fileUrl }){
     const [formState, formAction] = useFormState(sendEmail.bind(null, fileUrl), {});
     return(
             <section>

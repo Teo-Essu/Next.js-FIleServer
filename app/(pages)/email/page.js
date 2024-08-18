@@ -1,8 +1,8 @@
-import SendEmail from "@/components/email-form";
+import EmailForm from "@/components/email-form";
 
 export default function Email({ searchParams }){
     const url = searchParams.url;
     return(
-        <SendEmail fileUrl = {url}/>
+        <EmailForm fileUrl = {url}/>
     )
 }
