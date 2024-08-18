@@ -1,9 +1,10 @@
 'use client';
 import { sendEmail } from "@/actions/email/email-actions";
 import { useFormState } from 'react-dom';
+import styles from "./email-form.module.css";
 
-export default function SendEmail(){
-    const [formState, formAction] = useFormState(sendEmail, {});
+export default function SendEmail({ fileUrl }){
+    const [formState, formAction] = useFormState(sendEmail.bind(null, fileUrl), {});
     return(
             <section>
                 <div className='container'>

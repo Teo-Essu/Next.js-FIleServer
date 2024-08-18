@@ -1,20 +1,23 @@
 'use server';
 
 import axios from "axios";
-import { cookies } from "next/headers";
+import { revalidatePath } from "next/cache";
+import { redirect } from "next/dist/server/api-utils";
 
-export async function sendEmail( prevState, formData ) {
-    const url = cookies().get("url");
+export async function sendEmail(fileUrl, prevState, formData ) {
     const email = formData.get("email");
     const subject = formData.get("subject");
 
     try{
-        const response = await axios.post(`http://localhost:3500/sendFileViaEmail?url=${url}`,
+        await axios.post(`http://localhost:300/sendFileViaEmail?url=${fileUrl}`,
             {
                 email,
                 subject
             }
         );
+
+        revalidatePath('/files');
+        redirect('/files');
 
     }catch (error){
         return {
