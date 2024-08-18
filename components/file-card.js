@@ -1,6 +1,13 @@
+'use client';
 import styles from "./file-card.module.css";
 
 export default function FileCard(props){
+  const handleEmail = () => {
+    localStorage.setItem('url', props.cloudinaryUrl);
+    // localStorage.setItem('cardId', props.id);
+  }
+
+
     return(
         <main className='container'>
             <div className='card mt-4'>
@@ -10,7 +17,7 @@ export default function FileCard(props){
                         {props.fileDate}
                     </div>
                     <div className='card-text mb-2'>{props.fileDescription}</div>
-                    <a href='/email' className='btn btn-primary m-1'>Send</a>
+                    <a href='/email' className='btn btn-primary m-1' onClick={handleEmail}>Send</a>
                     <a href={props.cloudinaryUrl} target="_blank" rel="noopener noreferrer" className='btn btn-success m-1'>Preview</a>
                     <button className='btn btn-info m-1'>Download</button>
                     <div className={styles.bottom_left}>

@@ -60,14 +60,14 @@ export async function login (prevState, formData){
           }
         );
 
-        var token = response.data.accessToken;
-
-        cookies().set({
-          name: 'jwt',
-          value: token,
-          httpOnly: true,
-          path: '/',
-        });
+        cookies().set(
+          {
+            name: 'jwt',
+            value: response.data.accessToken,
+            httpOnly: true,
+            path: '/',
+          }        
+        );
       
     } catch(error) {
       return {

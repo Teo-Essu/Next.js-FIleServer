@@ -10,6 +10,7 @@ export default async function Files(){
             files = response.data;
         })
         .catch(error => {
+            console.log('Failed to get files: ',error);
             throw new Error('Failed to get files: ',error);
         });
 
